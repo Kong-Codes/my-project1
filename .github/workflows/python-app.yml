@@ -1,0 +1,58 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "cicd" ]
+  pull_request:
+    branches: [ "cicd" ]
+
+permissions:
+  contents: read
+
+env: 
+  CREDENTIALS_PATH: ${{ secrets.CREDENTIALS_PATH }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+        
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        
+    - name: Install dependencies
+      run: |
+        cd /project-3
+        poetry install --no-dev
+        
+    - name: Format code with Black
+      run: |
+        cd /project-3
+        poetry run black tests/unit/*.py ./cli.py ./exceptions.py ./main.py
+        
+    - name: Lint code with pylint
+      run: |
+        cd /project-3
+        poetry run pylint tests/unit/*.py ./cli.py ./exceptions.py ./main.py
+      continue-on-error: true
+
+    - name: Test with pytest
+      run: |
+        cd /project-3
+        poetry run pytest tests/unit/test_gspread_utility.py 
+        
+    - name: Deploy to server
+      run: |
+        make deploy
