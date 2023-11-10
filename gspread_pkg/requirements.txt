@@ -1,0 +1,6 @@
+gspread
+selenium
+webdriver_manager
+logging
+os
+dotenv
