@@ -35,6 +35,7 @@ jobs:
         poetry add webdriver_manager
         poetry add black
         poetry add pylint
+        poetry add pytest
     - name: Format code with Black
       run: |
         cd gspread_pkg
