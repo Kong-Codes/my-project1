@@ -48,4 +48,5 @@ jobs:
       continue-on-error: true
     - name: Test with pytest
       run: |
-        pytest
+        cd gspread_pkg
+        poetry run pytest
