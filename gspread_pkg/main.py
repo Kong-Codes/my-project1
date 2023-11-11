@@ -9,8 +9,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-KEY = os.getenv("PROJECT_1202")
-PATH = os.getenv("FILE_PATH")
+KEY = os.environ.get("PROJECT_1202")
+FILE_PATH = os.environ.get("FILE_PATH")
 
 link = "https://www.lusha.com/company-search/accounting/10/canada/193/page/2/"
 
@@ -22,7 +22,7 @@ def chrome_driver():
     return drivers
 
 
-gc = gspread.service_account(PATH)
+gc = gspread.service_account(FILE_PATH)
 
 
 def open_spreadsheet(sheet_name):
