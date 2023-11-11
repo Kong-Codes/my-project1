@@ -29,15 +29,15 @@ jobs:
         
     - name: Install dependencies
       run: |
-        poetry install --no-dev
+        poetry install 
     - name: Format code with Black
       run: |
-        cd /project-3
+        cd my-project1/gspread_pkg
         poetry run black *.py
         
     - name: Lint code with pylint
       run: |
-        cd /project-3
+        cd my-project1/gspread_pkg
         poetry run pylint *.py
       continue-on-error: true
     - name: Test with pytest
