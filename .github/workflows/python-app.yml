@@ -30,14 +30,17 @@ jobs:
     - name: Install dependencies
       run: |
         poetry init 
+        poetry add gspread
+        poetry add selenium
+        poetry add webdriver_manager
     - name: Format code with Black
       run: |
-        cd my-project1/gspread_pkg
+        cd gspread_pkg
         poetry run black *.py
         
     - name: Lint code with pylint
       run: |
-        cd my-project1/gspread_pkg
+        cd gspread_pkg
         poetry run pylint *.py
       continue-on-error: true
     - name: Test with pytest
