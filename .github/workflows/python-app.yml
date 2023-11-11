@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 env:
-  PATH: ${{ secrets.CREDENTIALS_PATH }}
+  PATH: ${{ secrets.FILE_PATH }}
 
 jobs:
   build:
