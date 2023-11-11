@@ -25,11 +25,10 @@ jobs:
         python-version: "3.10"
     - name: Install poetry
       run: |
-        curl -sSL https://install.python-poetry.org | python3 -
+        pipx install poetry
         
     - name: Install dependencies
       run: |
-        pexport PATH="/Users/mac/.local/bin:$PATH"
         poetry install --no-dev
     - name: Format code with Black
       run: |
