@@ -29,6 +29,7 @@ jobs:
         
     - name: Install dependencies
       run: |
+        pexport PATH="/Users/mac/.local/bin:$PATH"
         poetry install --no-dev
     - name: Format code with Black
       run: |
