@@ -29,7 +29,7 @@ jobs:
         
     - name: Install dependencies
       run: |
-        poetry install 
+        poetry init 
     - name: Format code with Black
       run: |
         cd my-project1/gspread_pkg
