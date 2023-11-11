@@ -12,8 +12,8 @@ on:
 permissions:
   contents: read
 
-env:
-  PATH: ${{ secrets.CREDENTIALS_PATH }}
+# env:
+#   PATH: ${{ secrets.CREDENTIALS_PATH }}
 
 jobs:
   build:
