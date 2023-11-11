@@ -18,38 +18,51 @@ env:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.9", "3.10", "3.11", "pypy3.9", "pypy3.10"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.9"
+          - os: windows-latest
+            python-version: "3.9"
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install poetry
-      run: |
-        pipx install poetry
-        
-    - name: Install dependencies
-      run: |
-        poetry init 
-        poetry add gspread
-        poetry add selenium
-        poetry add webdriver_manager
-        poetry add black
-        poetry add pylint
-        poetry add pytest
-    - name: Format code with Black
-      run: |
-        cd gspread_pkg
-        poetry run black *.py
-        
-    - name: Lint code with pylint
-      run: |
-        cd gspread_pkg
-        poetry run pylint *.py
-      continue-on-error: true
-    - name: Test with pytest
-      run: |
-        cd gspread_pkg
-        poetry run pytest
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        # This is the version of the action for setting up Python, not the Python version.
+        uses: actions/setup-python@v4
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+      - name: Install poetry
+        run: |
+          pipx install poetry
+          
+      - name: Install dependencies
+        run: |
+          poetry init 
+          poetry add gspread
+          poetry add selenium
+          poetry add webdriver_manager
+          poetry add black
+          poetry add pylint
+          poetry add pytest
+      - name: Format code with Black
+        run: |
+          cd gspread_pkg
+          poetry run black *.py
+          
+      - name: Lint code with pylint
+        run: |
+          cd gspread_pkg
+          poetry run pylint *.py
+        continue-on-error: true
+      - name: Test with pytest
+        run: |
+          cd gspread_pkg
+          poetry run pytest
