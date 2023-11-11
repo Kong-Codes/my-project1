@@ -1,0 +1,64 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+env:
+  FILE_PATH: ${{ secrets.FILE_PATH }}
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        python-version: ["3.9", "3.10", "3.11", "pypy3.9", "pypy3.10"]
+        exclude:
+          - os: macos-latest
+            python-version: "3.9"
+          - os: windows-latest
+            python-version: "3.9"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install poetry
+        run: |
+          pipx install poetry
+          
+      - name: Install dependencies
+        run: |
+          poetry init 
+          poetry add gspread
+          poetry add selenium
+          poetry add webdriver_manager
+          poetry add black
+          poetry add pylint
+          poetry add pytest
+      - name: Format code with Black
+        run: |
+          cd gspread_pkg
+          poetry run black *.py
+          
+      - name: Lint code with pylint
+        run: |
+          cd gspread_pkg
+          poetry run pylint *.py
+        continue-on-error: true
+      - name: Test with pytest
+        run: |
+          cd gspread_pkg
+          poetry run pytest
