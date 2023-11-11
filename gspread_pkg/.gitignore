@@ -1,2 +1,3 @@
 .env
-my-project.json
+#my-project.json
+.pytest_cache

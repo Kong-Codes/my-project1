@@ -1,5 +1,7 @@
-from main import open_spreadsheet, create_spreadsheet, new_worksheet, select_spreadsheet, spreadsheet_format
 import pytest
+from unittest import mock
+from main import open_spreadsheet, create_spreadsheet, new_worksheet, select_spreadsheet, spreadsheet_format
+
 
 
 # Test cases for open spreadsheet function
