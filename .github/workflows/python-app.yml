@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "cicd" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
