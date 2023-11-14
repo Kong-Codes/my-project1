@@ -1,0 +1,70 @@
+name: Python package
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  FILE_PATH: ${{ secrets.FILE_PATH }}
+
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+  install_poetry:
+    runs-on: macos-latest
+    steps:
+    - uses: action/checkout@3
+    - name: Install poetry
+      run: |
+        pipx install poetry
+  install_dependencies:
+    runs-on: macos-latest
+    steps:
+    - uses: action/checkout@3
+    - name: Install dependencies
+      run: |
+        poetry install
+        poetry add black
+        poetry add pylint
+    - name: Format code with Black
+      run: |
+        cd gspread_pkg
+        poetry run black *.py
+        
+    - name: Lint code with pylint
+      run: |
+        cd gspread_pkg
+        poetry run pylint *.py
+      continue-on-error: true
+  run_tests:
+    runs-on: macos-latest
+    steps:
+    - uses: action/checkout@3
+    - name: Test with pytest
+      run: |
+        cd gspread_pkg
+        poetry run pytest
+  test_coverage:
+  runs-on: macos-latest
+    steps:
+    - uses: action/checkout@3
+    - name: test coverage
+      run: |
+        cd gspread_pkg
+        poetry run pytest --cov
+        
