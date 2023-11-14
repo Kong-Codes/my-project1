@@ -60,7 +60,7 @@ jobs:
         cd gspread_pkg
         poetry run pytest
   test_coverage:
-  runs-on: macos-latest
+    runs-on: macos-latest
     steps:
     - uses: action/checkout@3
     - name: test coverage
