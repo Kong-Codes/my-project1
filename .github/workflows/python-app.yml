@@ -25,7 +25,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         
-  poetry:
+  dependencies:
     needs: build
     runs-on: macos-latest
     steps:
@@ -33,11 +33,6 @@ jobs:
     - name: Install poetry
       run: |
         pipx install poetry
-  dependencies:
-    needs: [build, poetry] 
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v3
     - name: Install dependencies
       run: |
         poetry install
@@ -55,7 +50,7 @@ jobs:
         poetry run pylint *.py
       continue-on-error: true
   run_tests:
-    needs: [build, poetry]
+    needs: [build, dependencies]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
@@ -64,7 +59,7 @@ jobs:
         cd gspread_pkg
         poetry run pytest
   test_coverage:
-    needs: [run_tests, dependencies, poetry]
+    needs: [run_tests, dependencies]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
