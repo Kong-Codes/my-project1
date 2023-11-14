@@ -29,15 +29,15 @@ jobs:
     needs: build
     runs-on: macos-latest
     steps:
-    - uses: action/checkout@v3
+    - uses: actions/checkout@v3
     - name: Install poetry
       run: |
         pipx install poetry
-  install_dependencies:
+  dependencies:
     needs: build
     runs-on: macos-latest
     steps:
-    - uses: action/checkout@v3
+    - uses: actions/checkout@v3
     - name: Install dependencies
       run: |
         poetry install
@@ -58,16 +58,16 @@ jobs:
     needs: build
     runs-on: macos-latest
     steps:
-    - uses: action/checkout@v3
+    - uses: actions/checkout@v3
     - name: Test with pytest
       run: |
         cd gspread_pkg
         poetry run pytest
   test_coverage:
-    needs: run_tests
+    needs: [run_tests, dependencies]
     runs-on: macos-latest
     steps:
-    - uses: action/checkout@3
+    - uses: actions/checkout@v3
     - name: test coverage
       run: |
         cd gspread_pkg
