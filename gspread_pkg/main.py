@@ -145,7 +145,7 @@ if __name__ == "__main__":
                 texts = driver.find_element(By.CSS_SELECTOR, value='.company-details-socials a')
                 linkedin = texts.get_attribute('href')
             except NoSuchElementException:
-                linkedin = "None"
+                linkedin = "None is availiable"
 
         worksheet.update(f"A{num}", company_name)
         worksheet.update(f"B{num}", company_link)
